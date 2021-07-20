@@ -15,6 +15,9 @@ module.exports={
                         message:"Invalid token"
                     });
                 }else{
+                    const splittedToken = token.split(".")
+                    const decryptedToken = Buffer.from(splittedToken[1],'base64').toString()
+                    req.user=JSON.parse(decryptedToken).usuario
                     next();
                 }
             });
