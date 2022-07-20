@@ -2,18 +2,45 @@
 const pool = require('../database');
 const { transporter } = require('../libs/nodemailer');
 
-const email = async(req, res)=>{
+const readAllEmails = async(req, res)=>{
     try {
-        const{ destinatario, titulo, mensaje, fecha } = req.body;
-        await transporter.sendMail({
-            from: '"UPeU Email" <saulolivasgaray@hotmail.com>', // sender address
-            to: correo, // list of receivers
-            subject: "Hello ✔", // Subject line
-            text: "Hello world?", // plain text body
-            html: "<b>Hello world?</b>", // html body
-          });
-          return res.status(200).json('correo enviado correctamente...!');
-          
+        const response = await pool.query('select *from correo');
+        return res.status(200).json(response.rows);
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json('Internal Server error...!');
+    }
+}
+
+const readEmail = async(req, res)=>{
+    try {
+        const id = parseInt(req.params.id);
+        const response = await pool.query('select *from correo where idcorreo=$1', [id]);
+        return res.status(200).json(response.rows);
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json('Internal Server error...!');
+    }
+}
+
+const createEmail = async(req, res)=>{
+    try {
+        const{ destinatario, titulo, mensaje, fecha, idusuario} = req.body;
+        await pool.query('insert into correo(destinatario, titulo, mensaje, fecha, idusuario) values($1,$2,$3,$4,$5)', [destinatario, titulo, mensaje, fecha, idusuario]);
+        return res.status(200).json(
+            `Correo ${ username } creado correctamente...!`);
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json('Internal Server error...!');
+    }
+}
+
+const delEmail = async(req, res)=>{
+    try {
+        const id = parseInt(req.params.id);
+        const response = await pool.query('delete from correo where idcorreo=$1', [id]);
+        return res.status(200).json(
+            `Correo ${ id } eliminado correctamente...!`);
     } catch (e) {
         console.log(e);
         return res.status(500).json('Internal Server error...!');
@@ -21,5 +48,8 @@ const email = async(req, res)=>{
 }
 
 module.exports = {
-    email
+    readAllEmails,
+    readEmail,
+    createEmail,
+    delEmail
 }

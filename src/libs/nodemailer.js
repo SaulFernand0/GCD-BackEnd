@@ -6,8 +6,8 @@ let transporter = nodemailer.createTransport({
   secure: false,
   requireTLS: true,
   auth:{
-    user: 'saulolivas@upeu.edu.pe',
-    pass: 'pnznopnggitsqtng'
+    user: 'jegarapi@gmail.com',
+    pass: 'dporzpnyyjxgieaj'
   },
 
 });
