@@ -25,10 +25,16 @@ const readEmail = async(req, res)=>{
 
 const createEmail = async(req, res)=>{
     try {
-        const{ destinatario, titulo, mensaje, fecha, idusuario} = req.body;
-        await pool.query('insert into correo(destinatario, titulo, mensaje, fecha, idusuario) values($1,$2,$3,$4,$5)', [destinatario, titulo, mensaje, fecha, idusuario]);
+        const{ destinatario, titulo, mensaje} = req.body;
+        await pool.query('insert into correo(destinatario, titulo, mensaje) values($1,$2,$3)', [destinatario, titulo, mensaje]);
+        transporter.sendMail({
+            subject: titulo,
+            text: mensaje,
+            to: destinatario, 
+            from: '✌️<jegarapi@gmail.com>'
+        })
         return res.status(200).json(
-            `Correo ${ username } creado correctamente...!`);
+            `Correo creado correctamente...!`);
     } catch (e) {
         console.log(e);
         return res.status(500).json('Internal Server error...!');
