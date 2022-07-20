@@ -1,7 +1,6 @@
 const pool = require('../database');
 const helpers = require('../libs/helpers');
 
-
 const readAllFiles = async (req, res) => {
     try {
         const response = await pool.query('select *from archivos');

@@ -9,9 +9,9 @@ const { readUser } = require('../controllers/user.controller');
 
 const { fileMulter } = require('../libs/multer');
 
-router.get('/', checkToken, fileCtr.readAllFiles);
-router.get('/:id', checkToken, fileCtr.readFile);
-router.post('/add', checkToken, fileMulter, fileCtr.createFile);
-router.delete('/delete/:id', checkToken, fileCtr.delFile);
+router.get('/', fileCtr.readAllFiles);
+router.get('/:id', fileCtr.readFile);
+router.post('/add', fileMulter, fileCtr.createFile);
+router.delete('/delete/:id', fileCtr.delFile);
 
 module.exports = router;

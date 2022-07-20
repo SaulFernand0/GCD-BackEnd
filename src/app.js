@@ -15,8 +15,8 @@ app.get('/', function(req, res, next){
     res.send('Bienvenido a Node JS...!');
 });
 app.use('/api/user', userRoutes);
-app.use('/api/auth/file', fileRoutes);
-app.use('/api/auth/email', emailRoutes);
+app.use('/api/file', fileRoutes);
+app.use('/api/email', emailRoutes);
 app.use('/api/auth', authRoutes);
 
 module.exports = app;
